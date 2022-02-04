@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt_br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex10 - list</title>
+</head>
+<body>
+    <div id="app">
+        <h1>Funcionarios da empresa</h1>
+        <div class="box" 
+            v-for="(pessoa,id) in pessoas" 
+            :key="id"
+            :class="{'ativo':pessoa.status}"
+            @click="pessoa.status = !pessoa.status">
+            <h3 style="margin:0">{{id+1}} {{pessoa.nome}}</h3>
+            <p style="margin:0">{{ pessoa.cargo }}</p>
+            <p style="margin:0">{{ pessoa.status? "Ativo" : "Inativo" }}</p>
+        </div>
+        <div class="progress">
+            <div class="bar" :style="{'width': atualiza + '%'}">
+            </div>
+        </div>
+        <div class="porcent">
+            <p>{{ atualiza }} % - Ativos</p>
+        </div>
+    </div>
+</body>
+
+<script src="https://unpkg.com/vue"></script>
+
+<script>
+
+    new Vue({
+        el:"#app",
+        data: {
+           pessoas: [
+               {nome: 'Alexandre Pranskunas',
+                cargo: 'Desenvolvedor',
+                status:true},
+               {nome: 'Ana Paula Pranskunas',
+                cargo: 'Administradora',
+                status:true},
+               {nome: 'Natalia Pranskunas',
+                cargo: 'Universitaria',
+                status:true},
+               {nome: 'Vinicius Pranskunas',
+                cargo: 'Atendente',
+                status:true},
+               {nome: 'Gustavo Pranskunas',
+                cargo: 'Estudante',
+                status:false},
+           ]
+           
+        },
+        computed:{
+          
+            atualiza(){
+                return (
+                    this.pessoas.filter(
+                        pessoasAtivas => pessoasAtivas.status
+                    ).length *100/this.pessoas.length
+                )
+            }
+        }
+    })
+</script>
+
+<style>
+    .box{
+        margin: 10px;
+        border: 1px solid #333;
+        width: 200px;
+        background-color: #faa;
+        padding: 15px
+    }
+
+    .ativo {
+        background-color: rgb(141, 133, 252);
+    }
+
+    .progress{
+        width: 90%;
+        height: 15px;
+        margin: 0 auto;
+        border: 1px solid #000
+    }
+
+    .bar {
+        width: 0%;
+        height: 15px;
+        background-color: #f00;
+    }
+
+    .porcent {
+        display: flex;
+        justify-content: center;
+    }
+</style>
+</html>

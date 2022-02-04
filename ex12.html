@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pt_br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex12</title>
+</head>
+<body>
+    <div id="app">
+        <div class="title">
+            <h1>Funcionarios da empresa</h1>
+        </div>
+        <form action="">
+            <div class="boxCadastro">
+                <p>Nome: <input type="text" id="txtNome"></p>
+                <p>Cargo: <input type="text" id="txtCargo"></p>
+            </div>
+            <label>Ativo: </label>
+            <select id="cbAtivo">
+                <option value=true>Sim</option>
+                <option value=false>Não</option>
+            </select><br>
+            <button class="cadastrar" @click="cadastrar">Cadastrar</button>
+        </form>
+        <hr>
+        <div id="boxFiltro">
+            <div>
+                <label for="nome">Filtro</label>
+                <input type="text" v-model="fNome" placeholder="Nome">
+            </div>
+            <div>
+                <label style="margin-left: 10px;">Ativo</label>
+                <input type="checkbox" v-model="fAtivo">
+                <button @click="limpar">Limpar filtro</button>
+            </div>
+        </div>
+        <hr>
+        <div class="geral">
+            <div class="box" 
+                v-for="(pessoa,id) in pessoasFiltradas" 
+                :key="id"
+                :class="{'ativo':pessoa.status}">
+                <h3 style="margin:0">{{pessoa.nome}}</h3>
+                <p style="margin:0">{{ pessoa.cargo }}</p>
+                <button type="button" 
+                    class="status" 
+                    @click="mudarStatus(pessoa)">
+                    Mudar status
+                </button>
+                <button type="button" 
+                    class="exclui"
+                    @click="excluir(id)">
+                    Excluir
+                </button>
+            </div>
+        </div>
+        <div class="progress">
+            <div class="bar" :style="{'width': atualiza + '%'}">
+            </div>
+        </div>
+        <div class="porcent">
+            <p>{{ atualiza }} % - Ativos</p>
+        </div>
+    </div>
+</body>
+
+<script src="https://unpkg.com/vue"></script>
+
+<script>
+    
+    new Vue({
+        el:"#app",
+        data: {
+           pessoas:[],
+           fNome:'',
+           fAtivo: false
+        },
+        methods: {
+            cadastrar(e){
+                e.preventDefault();
+                
+                let nome = document.getElementById("txtNome").value
+                let cargo = document.getElementById("txtCargo").value
+                let status = document.getElementById("cbAtivo").value
+                let obj = new Object
+                obj.nome = nome
+                obj.cargo = cargo
+        
+                if(obj.nome == "" || obj.nome.length < 5){
+                    alert("Nome inválido!")
+                }else if(obj.cargo == "" || obj.cargo.length < 5){
+                    alert("Cargo inválido!")
+                }else {
+                    obj.status = status == "false"? false : true
+                    this.pessoas.push(obj)
+                    localStorage.pessoas = JSON.stringify(this.pessoas)
+                    document.getElementById("txtNome").value=""
+                    document.getElementById("txtCargo").value=""
+                    document.getElementById("cbAtivo").value="true"
+                }
+            },
+            limpar(){
+                this.fNome=""
+                this.fAtivo=false
+            },
+            excluir(id){
+                this.pessoas.splice(id,1)
+                localStorage.pessoas = JSON.stringify(this.pessoas)
+            },
+            mudarStatus(pessoa){
+                pessoa.status = !pessoa.status
+                localStorage.pessoas = JSON.stringify(this.pessoas)
+            }
+        },
+        mounted(){
+            if(localStorage.pessoas){
+                this.pessoas = (JSON.parse(localStorage.getItem('pessoas')))
+            }
+        
+        
+        },
+        computed:{
+          
+            atualiza(){
+                let m = this.pessoas.filter(
+                    pessoasAtivas => pessoasAtivas.status
+                ).length 
+                    if(m == 0){
+                         return 0
+                    }else {
+                        return (m*100/this.pessoas.length).toFixed(2)
+                    }
+            },
+
+            pessoasFiltradas(){
+                let p = this.pessoas
+                p = p.filter(
+                    pa => pa.nome.toLowerCase().indexOf(this.fNome.toLowerCase())!=-1
+                )
+                if(this.fAtivo){
+                    p = p.filter(
+                        pa => pa.status
+                    )
+                }
+                return p
+            }
+        }
+    })
+</script>
+
+<style>
+    body{
+        background-color:#ccc
+    }
+    .title{
+        display: flex;
+        justify-content: center;
+        font-family: Georgia, 'Times New Roman', Times, serif;
+    }
+    .status{
+        background-color:rgb(211, 211, 211);
+        margin-top: 5px;
+        border: 1px solid #000;
+    }
+    .exclui{
+        background-color:rgb(248, 117, 117);
+        margin-top: 5px;
+        border: 1px solid #000;
+    }
+    #boxFiltro{
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 5px;
+    }
+    .geral{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        margin-bottom: 15px;
+    }
+    .box{
+        margin: 10px;
+        border: 1px solid #333;
+        width: 200px;
+        background-color: rgb(252, 250, 177);
+        padding: 15px
+    }
+
+    .ativo {
+        background-color: rgb(168, 210, 245);
+    }
+
+    .progress{
+        width: 90%;
+        height: 15px;
+        margin: 0 auto;
+        border: 1px solid rgb(153, 245, 173)
+    }
+
+    .bar {
+        width: 0%;
+        height: 15px;
+        background-color: rgb(153, 245, 173);
+        border-left:2px solid rgb(153, 245, 173);
+        box-shadow: 0 0 35px rgb(156, 235, 218);
+       
+    }
+
+    .porcent {
+        display: flex;
+        justify-content: center;
+    }
+   .boxCadastro{
+       display: flex;
+       flex-direction: column;
+       align-items: space-around;
+   }
+   .cadastrar{
+       background-color: #055;
+       color: #fff;
+       margin: 10px;;
+   }
+</style>
+</html>

@@ -1,0 +1,43 @@
+<meta charset="utf-8">
+<script src="https://unpkg.com/vue"></script>
+
+<div id="app">
+    <div class="progress">
+        <div class="bar" :style="{'width' : tamanho + '%'}"></div>
+    </div>
+    <button @click="tamanho+=10">+</button>
+</div>
+
+<script>
+    new vue({
+        el: "#app",
+        data: {
+            tamanho: 0
+        },
+        method: {
+
+    }
+
+})
+</script>
+<style>
+    .progress {
+        width: 600px;
+        height: 50px;
+        border: 1px solid #333;
+    }
+
+    .bar {
+        height: 100%;
+        width: 0%;
+        background-color: #f00;
+    }
+
+    button {
+        padding: 10px;
+        background-color: #666;
+        color: #fff;
+        border: none;
+        margin: 5px;
+    }
+</style>

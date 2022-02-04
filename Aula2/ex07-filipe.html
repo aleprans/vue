@@ -1,0 +1,52 @@
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+<div id="app">
+
+  <div class="progress">
+    <div class="bar" :style="{'width': progress + '%'}"></div>
+  </div>
+
+  <button @mousedown="startProgress" @mouseup="stopProgress">start</button>
+
+</div>
+
+<script type="text/javascript">
+
+  let app = new Vue({
+    el: '#app',
+    data: {
+      progress: 0
+    },
+    methods: {
+      startProgress() {
+        clickProgress = setInterval(() => {
+          if (this.progress < 100) {
+            this.progress++
+          } else {
+            this.stopProgress();
+            alert('Fim!')
+          }
+        }, 100)
+      },
+      stopProgress() {
+        clearInterval(clickProgress)
+      }
+    }
+  })
+
+</script>
+
+<style>
+
+  .progress {
+    width: 500px;
+    height: 40px;
+    border: 1px solid #000;
+  }
+
+  .bar {
+    height: 100%;
+    background: red;
+  }
+
+</style>

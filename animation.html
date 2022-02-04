@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt_BR">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Animation</title>
+</head>
+<body>
+  <h1>The @Keyframes Rule</h1>
+
+  <p><strong>Note:</strong> The @Keyframes rules</p>
+
+  <div></div>
+</body>
+<style>
+  div {
+    position: relative;
+    animation: mymove 10s infinite;
+  }
+
+  @keyframes mymove {
+    0%  {width:10px;height: 10px;background-color: #f00;}
+    50% {width:400px;height: 400px;background-color: #00f;}
+    100%  {width:10px;height: 10px;background-color: #f00;}
+  }
+</style>
+</html>

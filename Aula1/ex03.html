@@ -1,0 +1,39 @@
+<meta charset="utf-8" />
+<script src="https://unpkg.com/vue"></script>
+
+<div id="app">
+  <button class="bt" @click="aumentar">+</button>
+  <p>{{contador}}</p>
+  <p>{{contador>9 ? "Maior que 10" : "Menor que 10"}}</p>
+  <button class="bt" @click="diminuir">-</button>
+</div>
+
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+          contador: 0,
+          situacao:''
+        },
+        methods: {
+          aumentar(){
+            this.contador++
+          },
+          diminuir(){
+            if(this.contador > 0) this.contador--
+          }
+        } 
+    })
+</script>
+
+<style>
+ .bt {
+   width:30px;
+   height:30px;
+ }
+
+ p {
+   margin:10px;
+   font-size:1.5rem;
+ }
+</style>

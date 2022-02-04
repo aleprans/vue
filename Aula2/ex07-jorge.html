@@ -1,0 +1,30 @@
+
+<meta charset="utf-8" />
+<script src="https://unpkg.com/vue"></script>
+
+<div id="app">
+    <div class='progress'>
+        <div class='bar' :style="{'width' : tamanho + '%'}"></div>
+    </div>
+    <button>+</button>
+</div>
+
+<script src='ex07.js'></script>
+
+<style>
+    .progress {
+        width: 600px;
+        height: 40px;
+        border: 1px solid #333;
+    }
+    .bar {
+        height: 100%;
+        background-color: #f00;
+    }
+    button {
+        padding: 10px;
+        background-color: #666;
+        color: #fff;
+        border: none;
+    }
+</style>

@@ -1,0 +1,171 @@
+<meta charset="utf-8" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js">
+// <script src="https://unpkg.com/vue"></script>
+
+<div id="app">
+  <div class="tab">
+    <h1>Tabela</h1>
+
+
+    <div class="bar">
+      <p class="p">{{ ativos }}%</p>
+      <div class="progress" :style="{'width' : ativos +'%'}"></div>
+    </div>
+
+    <div class="flex">
+      <div
+        v-for="(funcionario, n) in funcionarios"
+        class="funcionarios"
+        :class="{'online' : funcionario.status, 'offline' : !funcionario.status}"
+        @click="funcionario.status = !funcionario.status"
+      >
+        <h4>{{ n }} - <b>Nome:</b> {{ funcionario.nome }}</h4>
+        <p class="p-2"><b>Cargo:</b> {{ funcionario.cargo }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let app = new Vue({
+    el: "#app",
+    data: {
+      funcionarios: [
+        {
+          nome: "Davi Nascimento",
+          cargo: "Aluno",
+          status: true,
+        },
+        {
+          nome: "Roberto Kalili",
+          cargo: "professor",
+          status: true,
+        },
+        {
+          nome: "Filipe Biasoli",
+          cargo: "Aluno",
+          status: true,
+        },
+        {
+          nome: "Levi Ackerman",
+          cargo: "instrutor",
+          status: true,
+        },
+      ],
+    },
+    computed: {
+      ativos() {
+        let x =
+          (this.funcionarios.filter((funcionariosAtivas) => funcionariosAtivas.status).length *
+            100) /
+          this.funcionarios.length;
+
+        x = x.toString();
+
+        x = x.substr(0, 4);
+
+        return x;
+      },
+    },
+  });
+</script>
+
+<style>
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+font-family: sans-serif;
+}
+#app {
+display: flex;
+flex-direction: column;
+align-items: center;
+background-color: black;
+height: 100vh;
+}
+.tab {
+margin-top: 15px;
+width: 88%;
+height: 50%;
+padding-inline: 50px;
+border: 1px solid #ffffff3d;
+border-radius: 10px;
+-webkit-box-reflect: below 1px linear-gradient(transparent, rgba(0, 0, 0, 0.164));
+}
+h1 {
+margin-top: 18px;
+margin-bottom: 18px;
+text-align: center;
+color: aliceblue;
+font-family: prata;
+}
+.bar {
+text-align: center;
+display: flex;
+flex-direction: column;
+margin-bottom: 50px;
+border: 1px solid;
+padding: 16px 0px;
+}
+.p {
+margin-bottom: -30px;
+color: #05e4f0;
+z-index: 100;
+}
+.progress {
+height: 49px;
+width: 100%;
+margin-top: -4px;
+margin-bottom: -16px;
+border-bottom: none ;
+border-top: none;
+border-left: none;
+border-right: 1px solid rgb(255, 240, 240);
+float: left;
+background-color: #ffffff;
+box-shadow: 0 0 5px #05e4f0,
+0 0 25px #05e4f0, 
+0 0 50px #05e4f0,
+0 0 200px #05e4f0;
+}
+
+
+.flex {
+display: flex;
+}
+.funcionarios {
+margin: 10px;
+padding: 10px;
+width: 100%;
+border-radius: 4px;
+border: .5px solid white;
+}
+.funcionarios.online {
+background-color: rgb(0, 255, 0);
+box-shadow: 0 0 5px rgb(0, 255, 0),
+0 0 5px rgb(0, 255, 0), 
+0 0 10px rgb(0, 255, 0),
+0 0 50px rgb(0, 255, 0);
+}
+.funcionarios.offline {
+background: rgb(177, 1, 1);
+box-shadow: inset 0 0 5px rgb(177, 1, 1), 
+0 0 5px rgb(177, 1, 1), 
+0 0 10px rgb(177, 1, 1), 
+0 0 50px rgb(177, 1, 1);
+background-size: cover;
+background-position: 35%;
+}
+.funcionarios h4 {
+margin: 0 auto auto;
+}
+h4 {
+color: whitesmoke;
+font-family: auto;
+}
+.p-2 {
+color: whitesmoke;
+margin-left: 24px;
+}
+</style>
